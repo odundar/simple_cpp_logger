@@ -17,8 +17,9 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <memory>
+#include <string>
 #include <iostream>
+#include <memory>
 #include <fstream>
 
 enum class LogLevel {
@@ -47,15 +48,15 @@ public:
 	* @param output: LogOutput::CONSOLE by Default
 	* @return void
 	*/
-	void SetLogPreferences(std::string logFile = "",
+	void SetLogPreferences(std::string logFileName = "",
 						   LogLevel level = LogLevel::ERROR,
 						   LogOutput output = LogOutput::CONSOLE) {
 		logLevel = level;
 		logOutput = output;
 
-		if (logOutput == LogOutput::FILE && !logFile.empty()) {
-			file.open(logFile);
-			if (!file.good()) {
+		if (logOutput == LogOutput::FILE && !logFileName.empty()) {
+			logFile.open(logFileName);
+			if (!logFile.good()) {
 				std::cerr << "Can't Open Log File" << std::endl;
 				logOutput = LogOutput::CONSOLE;
 			}
