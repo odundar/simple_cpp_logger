@@ -41,14 +41,15 @@ class Logger {
 public:
 
 	/**
-	* Initial Setup for Logger
+	* Configure Logger Preferences
 	* @param logFile
-	* @param level
-	* @param output
+	* @param level: LogLevel::ERROR by Default
+	* @param output: LogOutput::CONSOLE by Default
+	* @return void
 	*/
 	void SetLogPreferences(std::string logFile = "",
-		LogLevel level = LogLevel::ERROR,
-		LogOutput output = LogOutput::CONSOLE) {
+						   LogLevel level = LogLevel::ERROR,
+						   LogOutput output = LogOutput::CONSOLE) {
 		logLevel = level;
 		logOutput = output;
 
@@ -62,8 +63,8 @@ public:
 	}
 
 	/**
-	* Get Single Instance of Performance Monitor
-	* @return
+	* Get Single Logger Instance or Create new Object if Not Created
+	* @return std::shared_ptr<Logger>
 	*/
 	static std::shared_ptr<Logger> GetInstance() {
 		if (loggerInstance == nullptr) {
@@ -74,11 +75,13 @@ public:
 	}
 
 	/**
-	* Log message, set its level
-	* @param message
-	* @param messageLevel
+	* Log given message with defined parameters and generate message to pass on Console or File
+	* @param codeFile: __FILE__
+	* @param codeLine: __LINE__
+	* @param message: Log Message
+	* @param messageLevel: Log Level, LogLevel::DEBUG by default
 	*/
-	void Log(std::string code_file, int code_line, std::string message, LogLevel messageLevel = LogLevel::DEBUG) {
+	void Log(std::string codeFile, int codeLine, std::string message, LogLevel messageLevel = LogLevel::DEBUG) {
 		if (messageLevel <= logLevel) {
 			std::string logType;
 			//Set Log Level Name
@@ -99,8 +102,8 @@ public:
 				logType = "NONE: ";
 				break;
 			}
-			code_file += " : " + std::to_string(code_line) + " : ";
-			message = logType + code_file + message;
+			codeFile += " : " + std::to_string(codeLine) + " : ";
+			message = logType + codeFile + message;
 
 			LogMessage(message);
 		}
@@ -136,14 +139,14 @@ public:
 		if (logOutput == "FILE") {
 			return LogOutput::FILE;
 		}
-
+		//If corrupted string passed output will be on console
 		return LogOutput::CONSOLE;
 	}
 
 private:
 	LogLevel logLevel;
 	LogOutput logOutput;
-	std::ofstream file;
+	std::ofstream logFile;
 
 	static std::shared_ptr<Logger> loggerInstance;
 
@@ -151,7 +154,7 @@ private:
 
 	void LogMessage(const std::string& message) {
 		if (logOutput == LogOutput::FILE) {
-			file << message << std::endl;
+			logFile << message << std::endl;
 		}
 		else {
 			std::cout << message << std::endl;
