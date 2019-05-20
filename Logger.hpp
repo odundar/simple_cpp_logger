@@ -162,4 +162,7 @@ private:
 		}
 	}
 };
+
+std::shared_ptr<Logger> Logger::loggerInstance;
+
 #endif
