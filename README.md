@@ -1,6 +1,6 @@
 # simple_cpp_logger
 
-This is a very straight forward single header CPP logger intended to reuse for basic projects to log messages on Console or determined file with determined message level including file name and line number. 
+This is a very straight forward CPP logger intended to reuse for basic projects to log messages on Console or determined file with determined message level including file name and line number. 
 
 ## Integration
 
@@ -9,7 +9,7 @@ Load Logger.hpp files into any of your directory.
 Include files to CMake source files list.
 
 ```cpp
-set(LOGGER_SRC Logger.hpp)
+set(LOGGER_SRC Logger.hpp Logger.cpp)
 add_executable(application_binary app.cpp ${LOGGER_SRC})
 ```
 
