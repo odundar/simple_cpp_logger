@@ -2,15 +2,25 @@
 
 This is a very straight forward CPP logger intended to reuse for basic projects to log messages on Console or determined file with determined message level including file name and line number. 
 
-## Integration
+## CMake Integration
 
-Load Logger.hpp files into any of your directory. 
+Add Logger as submodule
+
+```bash
+git add submodule https://github.com/odundar/simple_cpp_logger.git <path>
+```
 
 Include files to CMake source files list.
 
 ```cpp
-set(LOGGER_SRC Logger.hpp Logger.cpp)
+
+set (LOGGER_DIR ${PROJECT_SOURCE_DIR}/libs/simple_cpp_logger)
+include_directories(${LOGGER_DIR})
+
+set(LOGGER_SRC ${LOGGER_DIR}/Logger.hpp ${LOGGER_DIR}/Logger.cpp)
+
 add_executable(application_binary app.cpp ${LOGGER_SRC})
+
 ```
 
 You are good to go.
